@@ -1,7 +1,6 @@
 package guru.springframework.sfgpetclinic.model;
 
 import java.time.LocalDate;
-import java.util.Locale;
 
 public class Pet {
 
