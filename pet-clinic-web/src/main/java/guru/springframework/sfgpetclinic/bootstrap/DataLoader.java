@@ -13,15 +13,16 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
-
     private final SpecialityService specialityService;
+    private final VisitService visitService;
 
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialityService = specialityService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -62,6 +63,14 @@ public class DataLoader implements CommandLineRunner {
         owner1.setCity("Boston");
         owner1.setTel("456");
 
+        Pet pet1= new Pet();
+        pet1.setPetType(dog);
+        pet1.setOwner(owner1);
+        pet1.setBirthday(LocalDate.now());
+        pet1.setName("Henry");
+        owner1.getPets().add(pet1);
+
+
         ownerService.save(owner1);
 
         Owner owner2 = new Owner();
@@ -70,6 +79,13 @@ public class DataLoader implements CommandLineRunner {
         owner1.setAddress("123 Bxl");
         owner1.setCity("Bxl");
         owner1.setTel("987");
+
+        Pet pet2= new Pet();
+        pet2.setPetType(cat);
+        pet2.setOwner(owner2);
+        pet2.setBirthday(LocalDate.now());
+        pet2.setName("Yan");
+        owner2.getPets().add(pet2);
 
         ownerService.save(owner2);
 
@@ -92,23 +108,19 @@ public class DataLoader implements CommandLineRunner {
 
         System.out.println("Loaded Vet...");
 
-        Pet pet1= new Pet();
-        pet1.setPetType(dog);
-        pet1.setOwner(owner1);
-        pet1.setBirthday(LocalDate.now());
-        pet1.setName("Henry");
-        owner1.getPets().add(pet1);
+        Visit visitCat = new Visit();
+        visitCat.setPet(pet2);
+        visitCat.setDate(LocalDate.now());
+        visitCat.setDescription("back pain");
 
-        Pet pet2= new Pet();
-        pet1.setPetType(cat);
-        pet2.setOwner(owner2);
-        pet2.setBirthday(LocalDate.now());
-        pet2.setName("Yan");
-        owner2.getPets().add(pet2);
+        visitService.save(visitCat);
 
+        Visit visitDog =new Visit();
+        visitDog.setPet(pet1);
+        visitDog.setDate(LocalDate.now());
+        visitDog.setDescription("pawn pain");
 
-        System.out.println("Loaded Pet...");
-        System.out.println(pet1.getPetType().toString());
-        System.out.println(pet2.getPetType());
+        visitService.save(visitDog);
+
     }
 }
